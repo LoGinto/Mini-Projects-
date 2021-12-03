@@ -1,4 +1,30 @@
 import turtle
+import time
+import random
+
+
+# AI class
+class AIPaddle(object):
+    def __init__(self, screensize):
+        # If time.time() > self.AI_time: the AI will work
+        self.aiTime = time.time() #next check time
+        self.failChance = 0.2
+        self.failfreezeDuration = 1.0
+        self.nextfailDecision = time.time()
+        self.speed = 20
+
+    def update(self):
+        if time.time() > self.nextfailDecision:  # timer counter
+            if random.random() <= self.failChance:
+                self.aiTime = time.time()+self.failfreezeDuration  #do nothing
+            self.nextfailDecision = time.time()+1.0
+            if time.time() > self.aiTime:
+                speed = 0  #speed increment
+            else:
+                speed = self.speed
+            #now I need to confine and move pong up and down relative to screen size
+
+
 
 # window
 window = turtle.Screen()
@@ -40,10 +66,12 @@ def paddle_a_up():
     y += 20  # goes up by 20 pixels
     paddle_a.sety(y)
 
+
 def paddle_a_down():
     y = paddle_a.ycor()  # y coordinate
     y -= 20  # goes up by 20 pixels
     paddle_a.sety(y)
+
 
 # Keyboard binding
 window.listen()
